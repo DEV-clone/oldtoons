@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up and Video Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .checkbox-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: black;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-button {
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="signUpPage" class="container">
+        <h1>Sign Up</h1>
+        <form id="signUpForm">
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}">
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="ageConfirmation" name="ageConfirmation" required>
+                <label for="ageConfirmation">I am an adult or I have my guardian's permission to use this site</label>
+            </div>
+            
+            <button type="button" id="registerButton">Register</button>
+        </form>
+    </div>
+
+    <div id="videoPage" class="video-container">
+        <video id="videoPlayer" preload="auto">
+            <source src="videofull.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="controls">
+            <button id="playPauseButton" class="control-button">Play</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerButton').addEventListener('click', function() {
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const ageConfirmation = document.getElementById('ageConfirmation').checked;
+            
+            if (mobileNumber && ageConfirmation) {
+                document.getElementById('signUpPage').style.display = 'none';
+                document.getElementById('videoPage').style.display = 'block';
+                videoPlayer.load(); // Ensure the video is loaded
+            } else {
+                alert('Please enter your mobile number and confirm your age.');
+            }
+        });
+
+        const videoPlayer = document.getElementById('videoPlayer');
+        const playPauseButton = document.getElementById('playPauseButton');
+
+        playPauseButton.addEventListener('click', function() {
+            if (videoPlayer.paused) {
+                videoPlayer.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                videoPlayer.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        videoPlayer.addEventListener('ended', function() {
+            playPauseButton.textContent = 'Play';
+        });
+
+        videoPlayer.addEventListener('error', function() {
+            alert('An error occurred while playing the video. Please try again later.');
+        });
+    </script>
+</body>
+</html>
